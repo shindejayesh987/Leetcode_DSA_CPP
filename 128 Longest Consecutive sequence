@@ -1,0 +1,28 @@
+class Solution {
+public:
+    int longestConsecutive(vector<int>& nums) {
+        // Create an unordered set 's' and initialize it with the elements from 'nums'
+        unordered_set<int> s(nums.begin(), nums.end());
+        
+        // Initialize a variable 'longest' to keep track of the longest consecutive sequence
+        int longest = 0;
+
+        // Iterate through each element 'n' in the set 's'
+        for(auto &n: s){
+            // Check if this is the start of a sequence (i.e., no n-1 exists in the set 's')
+            if(!s.count(n - 1)){
+                int length = 1; // Initialize the length of the current sequence to 1
+                
+                // While there is a consecutive element in the set 's', increase the sequence length
+                while(s.count(n + length))
+                    ++length;
+
+                // Update 'longest' with the maximum sequence length encountered so far
+                longest = max(longest, length);
+            } 
+        }
+
+        // Return the length of the longest consecutive sequence
+        return longest;
+    }
+};
