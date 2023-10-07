@@ -1,0 +1,33 @@
+class Solution {
+public:
+    bool isPalindrome(string s) {
+        // Initialize two pointers, i and j, to the start and end of the string.
+        int i = 0;
+        int j = s.size() - 1;
+        
+        // Continue looping until i crosses j.
+        while (i < j) {
+            // Skip non-alphanumeric characters from the beginning of the string.
+            while (!isalnum(s[i]) && i < j) {
+                i++;
+            }
+            // Skip non-alphanumeric characters from the end of the string.
+            while (!isalnum(s[j]) && i < j) {
+                j--;
+            }
+            
+            // Compare characters at positions i and j after converting them to lowercase.
+            if (tolower(s[i]) != tolower(s[j])) {
+                // If the characters are not equal, return false (not a palindrome).
+                return false;
+            }
+            
+            // Move the pointers inward for the next comparison.
+            i++;
+            j--;
+        }
+        
+        // If the loop completes without finding non-matching characters, it's a palindrome.
+        return true;
+    }
+};
