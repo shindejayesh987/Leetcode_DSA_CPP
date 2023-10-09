@@ -1,0 +1,31 @@
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        // Initialize variables to store maximum profit (maxP) and left (l) and right (r) pointers.
+        int maxP = 0; // Stores the maximum profit.
+        int l = 0;   // Left pointer initialized to the first element.
+        int r = 0;   // Right pointer initialized to the first element.
+
+        // Start a loop that iterates through the prices vector.
+        while (r < prices.size()) {
+            // Check if the current stock price at 'r' is greater than the price at 'l'.
+            if (prices[r] > prices[l]) {
+                // Calculate the potential profit from buying at 'l' and selling at 'r'.
+                int currentProfit = prices[r] - prices[l];
+                
+                // Update maxP with the maximum profit seen so far.
+                maxP = max(maxP, currentProfit);
+            } else {
+                // If the price at 'r' is not greater than the price at 'l',
+                // update 'l' to 'r', effectively setting a new potential buying point.
+                l = r;
+            }
+            
+            // Move the 'r' pointer to the next position in the prices vector.
+            ++r;
+        }
+
+        // Return the maximum profit calculated during the loop.
+        return maxP;
+    }
+};
