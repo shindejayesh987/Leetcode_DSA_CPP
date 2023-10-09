@@ -1,0 +1,22 @@
+class Solution {
+public:
+    bool containsDuplicate(vector<int>& nums) {
+        // Create an unordered set 's' to store unique elements
+        unordered_set<int> s;
+        
+        // Iterate through the elements of the input vector 'nums'
+        for (int i = 0; i < nums.size(); i++) {
+            // Check if the current element 'nums[i]' is already in the set 's'
+            if (s.find(nums[i]) != s.end()) {
+                // If the element is found, return 'true' (contains a duplicate)
+                return true;
+            }
+            
+            // If the element is not found, insert it into the set 's'
+            s.insert(nums[i]);
+        }
+        
+        // If the loop completes without finding any duplicates, return 'false'
+        return false;
+    }
+};
