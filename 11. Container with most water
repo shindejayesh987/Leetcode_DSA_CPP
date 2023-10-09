@@ -1,0 +1,33 @@
+class Solution {
+public:
+    int maxArea(vector<int>& height) {
+        // Initialize two pointers, i and j, at the beginning and end of the input vector 'height'.
+        int i = 0;
+        int j = height.size() - 1;
+        
+        // Initialize 'curr' to store the current calculated area and 'result' to store the maximum area found.
+        int curr = 0;
+        int result = 0;
+        
+        // Start a while loop that continues as long as 'i' is less than 'j'.
+        while (i < j) {
+            // Calculate the current area as the product of the width (distance between 'i' and 'j') 
+            // and the minimum of the heights at 'i' and 'j'.
+            curr = (j - i) * min(height[i], height[j]);
+            
+            // Update 'result' with the maximum of its current value and 'curr'.
+            result = max(result, curr);
+            
+            // Move the pointer with the smaller height towards the other pointer, 
+            // as moving it might lead to a larger area.
+            if (height[i] <= height[j]) {
+                i++;
+            } else {
+                j--;
+            }
+        }
+        
+        // Return the maximum area found.
+        return result;
+    }
+};
