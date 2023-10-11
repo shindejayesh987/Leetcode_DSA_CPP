@@ -1,0 +1,41 @@
+class Solution {
+public:
+    int lengthOfLongestSubstring(string& s) {
+        // Create an unordered set to store unique characters in the current substring.
+        unordered_set<char> chars;
+
+        // Initialize variables to keep track of the maximum substring length (maxSize) and pointers (i and j).
+        int maxSize = 0; // Length of the longest substring without repeating characters.
+        int i = 0;       // Left pointer of the current substring.
+        int j = 0;       // Right pointer of the current substring.
+
+        // Start a loop that iterates through the characters of the input string 's'.
+        while (j < s.size()) {
+            // Check if the current character at 'j' is already in the 'chars' set (indicating a repeated character).
+            while (chars.find(s[j]) != chars.end()) {
+                // If it is repeated, remove characters from the left of the substring until the repetition is resolved.
+                chars.erase(s[i]);
+                ++i;
+            }
+
+            // Update 'maxSize' with the maximum of the previous maximum or the current substring length.
+            maxSize = max(maxSize, j - i + 1);
+
+            // Add the current character at 'j' to the 'chars' set, as it's part of the current non-repeating substring.
+            chars.insert(s[j]);
+
+            // Move the right pointer 'j' to the next character in the string.
+            ++j;
+        }
+
+        // Return the maximum substring length found.
+        return maxSize;
+    }
+};
+
+--------------------------
+
+More Explaination-->    In summary, i and j are two pointers that work together to define the boundaries of the current substring. 
+i ensures that there are no repeating characters within the substring, and j extends the substring to the right. 
+The maxSize variable keeps track of the length of the longest substring without repeating characters found so far as i and j move through the input string.
+
