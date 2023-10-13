@@ -1,0 +1,45 @@
+class Solution
+{
+public:
+    int findMin(vector<int> &nums)
+    {
+        // Initialize the result variable to the first element of the array.
+        int res = nums[0];
+        
+        // Initialize two pointers, 'l' and 'r,' to the beginning and end of the array.
+        int l = 0;
+        int r = nums.size() - 1;
+
+        // Perform a binary search until the 'l' pointer is less than or equal to the 'r' pointer.
+        while (l <= r)
+        {
+            // If the 'l' pointer is smaller than the 'r' pointer, the array is sorted, and 'l' points to the minimum value.
+            if (nums[l] < nums[r])
+            {
+                // Update the result to the smaller of the current result and the value at 'l'.
+                res = min(res, nums[l]);
+                break; // Break out of the loop, as we have found the minimum.
+            }
+            
+            // Calculate the middle index of the current search range.
+            int mid = l + (r - l) / 2;
+            
+            // Update the result to the smaller of the current result and the value at 'mid.'
+            res = min(res, nums[mid]);
+
+            // If the value at 'mid' is greater than or equal to the value at 'l',
+            // it means that 'mid' is in the left (sorted) portion of the array.
+            if (nums[mid] >= nums[l]) 
+            {
+                l = mid + 1; // Move 'l' closer to the right sorted array.
+            }
+            else
+            {
+                r = mid - 1; // Otherwise, move 'r' to the left.
+            }
+        }
+
+        // The loop ends when 'l' and 'r' have converged, and 'res' holds the minimum value.
+        return res;
+    }
+};
