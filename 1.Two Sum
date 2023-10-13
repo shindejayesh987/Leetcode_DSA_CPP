@@ -1,0 +1,24 @@
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        // Create a map 'indexes' to store the indices of elements in 'nums'
+        map<int, int> indexes;
+
+        // Iterate through the elements in the input vector 'nums'
+        for (int i = 0; i < nums.size(); i++) {
+            int complement = target - nums[i]; // Calculate the complement of the current element
+
+            // Check if the complement exists in the map 'indexes'
+            if (indexes.find(complement) != indexes.end()) {
+                // If found, return a vector containing the indices of the two elements
+                return vector<int> {i, indexes[complement]};
+            }
+
+            // If the complement does not exist, add the current element and its index to 'indexes'
+            indexes[nums[i]] = i;
+        }
+
+        // If no solution is found, return an empty vector
+        return vector<int> {};
+    }
+};
