@@ -1,0 +1,39 @@
+class Solution {
+public:
+    bool isValid(string s) {
+        // Create a stack to store open parentheses
+        stack<char> open;
+        
+        // Define a mapping of closing parentheses to their corresponding opening parentheses
+        unordered_map<char, char> parens = {
+            {')', '('},
+            {']', '['},
+            {'}', '{'},
+        };
+        
+        // Iterate through each character in the input string
+        for (const auto& c : s) {
+            if (parens.find(c) != parens.end()) {
+                // If the character is a closing parenthesis
+                if (open.empty()) {
+                    // If the stack is empty and we encounter a closing parenthesis, it's unbalanced
+                    return false;
+                }
+
+                if (open.top() != parens[c]) {
+                    // If the top of the stack doesn't match the current closing parenthesis, it's unbalanced
+                    return false;
+                }
+
+                // Pop the corresponding opening parenthesis from the stack
+                open.pop();
+            } else {
+                // If the character is not a closing parenthesis, push it onto the stack
+                open.push(c);
+            }
+        }
+        
+        // After processing the entire string, the stack should be empty if parentheses are balanced
+        return open.empty();
+    }
+};
