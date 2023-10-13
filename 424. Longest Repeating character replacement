@@ -1,63 +1,32 @@
 class Solution {
 public:
-    string minWindow(string s, string t) {
-        // Create a hash map 'm' to count the occurrences of characters in string 't'.
-        unordered_map<char, int> m;
+    int characterReplacement(string s, int k) {
+        // Create an array to count the occurrences of each character in the alphabet.
+        vector<int> count(26); // We assume only uppercase letters ('A' to 'Z').
 
-        // Initialize the hash map with character counts from string 't'.
-        for (int i = 0; i < t.size(); i++) {
-            m[t[i]]++;
-        }
+        int maxCount = 0; // Keeps track of the most frequent character within the current window.
 
-        int i = 0; // Left pointer of the window.
-        int j = 0; // Right pointer of the window.
+        int i = 0; // Left pointer of the sliding window.
 
-        // 'counter' keeps track of the number of characters from 't' that must be in 's'.
-        int counter = t.size();
+        // Iterate through the characters of the input string using a right pointer (j).
+        for (int j = 0; j < s.size(); j++) {
+            // Update the count of the current character at position 'j'.
+            count[s[j] - 'A']++;
 
-        int minStart = 0; // Starting index of the minimum window.
-        int minLength = INT_MAX; // Length of the minimum window, initialized to a large value.
+            // Update 'maxCount' with the maximum character count within the current window.
+            maxCount = max(maxCount, count[s[j] - 'A']);
 
-        // Start a loop that iterates through the characters of the input string 's'.
-        while (j < s.size()) {
-            // If the character at 's[j]' exists in 't', decrease the 'counter'.
-            if (m[s[j]] > 0) {
-                counter--;
-            }
-
-            // Decrease the character count for 's[j]' in the hash map 'm'.
-            m[s[j]]--;
-
-            // Move the right pointer 'j' to expand the window.
-            j++;
-
-            // When a valid window is found, move the left pointer 'i' to find a smaller window.
-            while (counter == 0) {
-                // Update the minimum window information if the current window is smaller.
-                if (j - i < minLength) {
-                    minStart = i;
-                    minLength = j - i;
-                }
-
-                // Increase the character count for 's[i]' in the hash map 'm'.
-                m[s[i]]++;
-
-                // If the character at 's[i]' exists in 't', increase the 'counter'.
-                if (m[s[i]] > 0) {
-                    counter++;
-                }
-
-                // Move the left pointer 'i' to the right.
+            // Check if the difference between the window size and 'maxCount' exceeds 'k'.
+            if (j - i + 1 - maxCount > k) {
+                // If the number of replacements needed exceeds 'k', we need to shrink the window.
+                // Move the left pointer 'i' to the right and decrement the count of the character at 'i'.
+                count[s[i] - 'A']--;
                 i++;
             }
         }
 
-        // Check if a minimum window was found, and return it as a substring of 's'.
-        if (minLength != INT_MAX) {
-            return s.substr(minStart, minLength);
-        }
-
-        // If no valid window was found, return an empty string.
-        return "";
+        // The result is the length of the longest valid substring within the constraints of 'k' replacements.
+        // We can calculate this by subtracting 'i' from the total size of the string.
+        return s.size() - i;
     }
 };
