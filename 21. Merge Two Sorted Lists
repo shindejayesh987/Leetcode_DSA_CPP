@@ -1,0 +1,53 @@
+class Solution {
+public:
+    // Definition of a ListNode class is assumed to be present elsewhere.
+
+    // The mergeTwoLists method takes two linked lists as input and merges them.
+    ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
+        // Check if both input lists are empty. If they are, return an empty list.
+        if (list1 == NULL && list2 == NULL) {
+            return NULL;
+        }
+
+        // Check if either list1 is empty. If it is, return list2.
+        if (list1 == NULL) {
+            return list2;
+        }
+
+        // Check if list2 is empty. If it is, return list1.
+        if (list2 == NULL) {
+            return list1;
+        }
+
+        // Create a dummy node to serve as the starting point of the merged list.
+        // The dummy node's value is not significant, and it is used to simplify
+        // the code by avoiding special cases for the head of the merged list.
+        ListNode* dummy = new ListNode();
+        ListNode* curr = dummy; // Initialize a pointer to the current node, starting at the dummy node.
+
+        // Merge the two lists until one of them becomes empty.
+        while (list1 != NULL && list2 != NULL) {
+            if (list1->val <= list2->val) {
+                // If the value in list1 is smaller or equal, add it to the merged list.
+                curr->next = list1;
+                list1 = list1->next; // Move list1's pointer to the next node.
+            } else {
+                // If the value in list2 is smaller, add it to the merged list.
+                curr->next = list2;
+                list2 = list2->next; // Move list2's pointer to the next node.
+            }
+            curr = curr->next; // Move the current pointer to the last added node.
+        }
+
+        // At this point, one of the input lists is empty. Connect the remaining
+        // non-empty list to the merged list.
+        if (list1 == NULL) {
+            curr->next = list2;
+        } else {
+            curr->next = list1;
+        }
+
+        // Return the merged list, starting from the node after the dummy node.
+        return dummy->next;
+    }
+};
