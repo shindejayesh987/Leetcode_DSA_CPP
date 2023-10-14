@@ -1,0 +1,35 @@
+class Solution {
+public:
+    bool isAnagram(string s, string t) {
+        // Check if the lengths of the two input strings are different
+        if (s.size() != t.size()) {
+            return false; // If they have different lengths, they cannot be anagrams
+        }
+
+        // Create two unordered maps 'smap' and 'tmap' to store character frequencies in strings 's' and 't'
+        unordered_map<char, int> smap;
+        unordered_map<char, int> tmap;
+
+        // Count character frequencies in string 's' and store them in 'smap'
+        for (int i = 0; i < s.size(); i++) {
+            smap[s[i]]++;
+        }
+
+        // Count character frequencies in string 't' and store them in 'tmap'
+        for (int i = 0; i < t.size(); i++) {
+            tmap[t[i]]++;
+        }
+
+        // Iterate through the characters in string 's' (or 't') - Note: 'smap' and 'tmap' may have different sizes
+        for (int i = 0; i < smap.size(); i++) {
+            // Check if the character frequencies in 'smap' and 'tmap' are equal
+            if (smap[i] != tmap[i]) {
+                return false; // If any character's frequency is not the same, the strings are not anagrams
+            }
+        }
+
+        // If the loop completes without finding any differences, return 'true' as the strings are anagrams
+        return true;
+    }
+};
+
