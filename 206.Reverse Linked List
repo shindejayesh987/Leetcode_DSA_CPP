@@ -1,0 +1,21 @@
+class Solution {
+public:
+    ListNode* reverseList(ListNode* head) {
+        // Check if the input list is empty or contains only one element.
+        if (head == NULL || head->next == NULL) {
+            return head; // If it's empty or has only one element, there's nothing to reverse.
+        }
+
+        ListNode* prev = NULL; // Initialize a pointer to keep track of the previous node.
+        ListNode* curr = head; // Initialize a pointer to traverse the list, starting from the head.
+
+        while (curr != NULL) {
+            ListNode* temp = curr->next; // Store the next node to avoid losing the reference.
+            curr->next = prev; // Reverse the 'next' pointer of the current node to point to the previous node.
+            prev = curr; // Move the 'prev' pointer to the current node.
+            curr = temp; // Move the 'curr' pointer to the next node for the next iteration.
+        }
+
+        return prev; // 'prev' will be pointing to the new head of the reversed list.
+    }
+};
