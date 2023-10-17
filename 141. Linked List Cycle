@@ -1,0 +1,26 @@
+class Solution {
+public:
+    bool hasCycle(ListNode *head) {
+        // Check if the input list is empty.
+        if (head == NULL) {
+            return false;
+        }
+        
+        ListNode* slow = head; // Initialize a slow pointer at the head of the list.
+        ListNode* fast = head; // Initialize a fast pointer at the head of the list.
+
+        // Use the "tortoise and hare" approach to detect a cycle.
+        while (fast->next != NULL && fast->next->next != NULL) {
+            slow = slow->next; // Move the slow pointer by one step.
+            fast = fast->next->next; // Move the fast pointer by two steps.
+
+            // If the slow and fast pointers meet at the same node, a cycle is detected.
+            if (slow == fast) {
+                return true;
+            }
+        }
+
+        // If the loop terminates without detecting a cycle, return false.
+        return false;
+    }
+};
