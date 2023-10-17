@@ -1,0 +1,27 @@
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& numbers, int target) {
+        int i = 0; // Initialize a variable 'i' to point to the first element of the vector.
+        int j = numbers.size() - 1; // Initialize a variable 'j' to point to the last element of the vector.
+
+        vector<int> result; // Create a vector to store the result.
+
+        // Use a while loop to search for a pair of elements whose sum equals the 'target'.
+        while (i < j) {
+            int sum = numbers[i] + numbers[j]; // Calculate the sum of the elements at 'i' and 'j'.
+
+            if (sum < target) {
+                i++; // If the sum is less than the target, increment 'i' to move towards larger values.
+            } else if (sum > target) {
+                j--; // If the sum is greater than the target, decrement 'j' to move towards smaller values.
+            } else {
+                // If the sum equals the target, a valid pair is found.
+                result.push_back(i + 1); // Push the index of the first element in the result (1-based index).
+                result.push_back(j + 1); // Push the index of the second element in the result (1-based index).
+                break; // Exit the loop since a solution is found.
+            }
+        }
+
+        return result; // Return the vector 'result' containing the indices of the two elements that sum to the 'target'.
+    }
+};
