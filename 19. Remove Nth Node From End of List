@@ -1,0 +1,37 @@
+class Solution {
+public:
+    ListNode* removeNthFromEnd(ListNode* head, int n) {
+        // Check if the list contains only one element. If so, remove it by returning NULL.
+        if (head->next == NULL) {
+            return NULL;
+        }
+        
+        ListNode* slow = head; // Initialize a slow pointer to the head of the list.
+        ListNode* fast = head; // Initialize a fast pointer to the head of the list.
+
+        // Move the fast pointer n nodes ahead in the list.
+        while (n > 0) {
+            fast = fast->next;
+            n--;
+        }
+        
+        // If fast pointer becomes NULL, it means the nth node is the head node.
+        // In this case, return the list starting from the second node (head->next).
+        if (fast == NULL) {
+            return head->next;
+        }
+        
+        // Move both slow and fast pointers until fast reaches the end of the list.
+        while (fast->next != NULL) {
+            slow = slow->next;
+            fast = fast->next;
+        }
+        
+        // The slow pointer is now at the node just before the nth node from the end.
+        // Update the 'next' pointer of this node to remove the nth node.
+        slow->next = slow->next->next;
+
+        // Return the head of the modified list.
+        return head;
+    }
+};
