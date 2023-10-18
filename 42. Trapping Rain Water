@@ -1,0 +1,39 @@
+class Solution {
+public:
+    int trap(vector<int>& height) {
+        // Initialize two pointers 'i' and 'j' at the beginning and end of the input vector 'height'.
+        int i = 0;
+        int j = height.size() - 1;
+        
+        // Initialize variables 'maxLeft' and 'maxRight' to keep track of the maximum height encountered on the left and right sides.
+        int maxLeft = height[i];
+        int maxRight = height[j];
+        
+        // Initialize 'result' to store the total trapped rainwater volume.
+        int result = 0;
+        
+        // Start a while loop that continues as long as 'i' is less than 'j'.
+        while (i < j) {
+            // If the maximum height on the left side is less than or equal to the maximum height on the right side, process the left side.
+            if (maxLeft <= maxRight) {
+                // Move the left pointer 'i' one step to the right.
+                i++;
+                // Update 'maxLeft' to be the maximum of its current value and the height at the new 'i'.
+                maxLeft = max(maxLeft, height[i]);
+                // Calculate and add the trapped water volume for the current position.
+                result += maxLeft - height[i];
+            } else {
+                // If the maximum height on the right side is greater, process the right side.
+                // Move the right pointer 'j' one step to the left.
+                j--;
+                // Update 'maxRight' to be the maximum of its current value and the height at the new 'j'.
+                maxRight = max(maxRight, height[j]);
+                // Calculate and add the trapped water volume for the current position.
+                result += maxRight - height[j];
+            }
+        }
+        
+        // Return the total trapped rainwater volume.
+        return result;
+    }
+};
