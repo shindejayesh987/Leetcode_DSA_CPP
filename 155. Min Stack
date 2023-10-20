@@ -1,0 +1,62 @@
+#include <stack>
+#include <utility>
+
+using namespace std;
+
+class MinStack {
+public:
+    MinStack() {
+        // Constructor: Initializes the MinStack.
+    }
+    
+    void push(int val) {
+        // Pushes an element onto the main stack.
+        stk.push(val);
+
+        // Check if minStk is empty or if the value is smaller than the current minimum.
+        if (minStk.empty() || val < minStk.top().first) {
+            // If the above condition is met, it means 'val' is the new minimum.
+            // So, we push a pair {val, 1} onto the minStk:
+            // - 'val' represents the new minimum value.
+            // - '1' indicates that this minimum value has been encountered once.
+            minStk.push({val, 1});
+        } else if (val == minStk.top().first) {
+            // If 'val' is equal to the current minimum, we don't change the minimum value,
+            // but we increment the occurrence count.
+            minStk.top().second++;
+        }
+    }
+    
+    void pop() {
+        // Pops an element from the main stack.
+
+        // Check if the element being removed from stk is the current minimum (at the top of minStk).
+        if (stk.top() == minStk.top().first) {
+            // Decrements the occurrence count in minStk.
+            minStk.top().second--;
+
+            // If the occurrence count becomes 0, it means there are no more occurrences of the minimum value.
+            // In this case, the minimum value is removed from minStk.
+            if (minStk.top().second == 0) {
+                minStk.pop();
+            }
+        }
+
+        // Finally, pop the element from stk.
+        stk.pop();
+    }
+    
+    int top() {
+        // Returns the top element of the main stack.
+        return stk.top();
+    }
+    
+    int getMin() {
+        // Returns the current minimum value stored in minStk.
+        return minStk.top().first;
+    }
+
+private:
+    stack<int> stk;                    // Main stack to store elements.
+    stack<pair<int, int>> minStk;      // Auxiliary stack to store minimum values and their counts.
+};
