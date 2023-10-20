@@ -1,0 +1,42 @@
+class Solution {
+public:
+    int evalRPN(vector<string>& tokens) {
+        stack<int> stk; // Create a stack to store numbers during evaluation.
+
+        for (int i = 0; i < tokens.size(); i++) {
+            string token = tokens[i];
+
+            if (token.size() > 1 || isdigit(token[0])) {
+                // If the token is a number (either a single digit or a multi-digit number),
+                // convert it to an integer and push it onto the stack.
+                stk.push(stoi(token));
+                continue;
+            }
+
+            // If the token is an operator (+, -, *, /), we need to perform an operation.
+            int num2 = stk.top(); // Get the top number on the stack.
+            stk.pop(); // Pop it from the stack.
+            int num1 = stk.top(); // Get the next number on the stack.
+            stk.pop(); // Pop it from the stack.
+
+            int result = 0; // Initialize a variable to store the result of the operation.
+
+            // Check which operator we have and perform the corresponding operation.
+            if (token == "+") {
+                result = num1 + num2; // Addition.
+            } else if (token == "-") {
+                result = num1 - num2; // Subtraction.
+            } else if (token == "*") {
+                result = num1 * num2; // Multiplication.
+            } else {
+                result = num1 / num2; // Division.
+            }
+
+            // Push the result of the operation back onto the stack for further evaluation.
+            stk.push(result);
+        }
+
+        // After processing all tokens, the result should be on top of the stack.
+        return stk.top(); // Return the final result.
+    }
+};
