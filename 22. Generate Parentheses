@@ -1,0 +1,50 @@
+class Solution {
+public:
+    vector<string> generateParenthesis(int n) {
+        vector<string> result; // Initialize an empty vector to store the generated combinations.
+        generate(n, 0, 0, "", result); // Call the helper function to generate combinations.
+        return result; // Return the list of valid combinations.
+    }
+private:
+    // Helper function to generate valid combinations recursively.
+    void generate(int n, int open, int close, string str, vector<string>& result) {
+        // If we have used all opening and closing parentheses, we've found a valid combination.
+        if (open == n && close == n) {
+            result.push_back(str); // Add the valid combination to the result vector.
+            return;
+        }
+        // If we haven't used all opening parentheses, we can add an opening parenthesis.
+        if (open < n) {
+            generate(n, open + 1, close, str + '(', result);
+        }
+        // If there are more open than close parentheses used, we can add a closing parenthesis.
+        if (open > close) {
+            generate(n, open, close + 1, str + ')', result);
+        }
+    }
+};
+/*why open +1 
+ChatGPT
+The open + 1 in the recursive call to generate is used to keep track of the number of open parentheses used in the generated combination. Here's why it's necessary:
+
+In this code, we're generating valid combinations of parentheses for a given value of n, where n represents the number of pairs of parentheses.
+
+We start with an empty string str and the counts of open and close parentheses, both initially set to 0 (open = close = 0).
+
+We have two rules:
+
+We can add an opening parenthesis if we haven't used all the opening parentheses (open < n).
+We can add a closing parenthesis if we have more opening parentheses than closing parentheses (open > close).
+When we add an opening parenthesis to the str, we also increment the count of open parentheses (open + 1). This reflects the fact that we are using one more opening parenthesis in the combination.
+
+When we add a closing parenthesis to the str, we increment the count of close parentheses (close + 1). This reflects the fact that we are using one more closing parenthesis in the combination.
+
+The recursive calls to generate explore all possible combinations of opening and closing parentheses while making sure that we respect the rule that we can only add an opening parenthesis if we haven't used all of them (open < n).
+
+By incrementing open during the recursive call, we are effectively exploring different combinations where an opening parenthesis has been added. This ensures that the generated combinations are valid, with the appropriate number of opening and closing parentheses, up to the given limit of n.
+
+
+
+
+
+*/
