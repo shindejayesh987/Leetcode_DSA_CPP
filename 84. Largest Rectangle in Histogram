@@ -1,0 +1,41 @@
+class Solution {
+public:
+    int largestRectangleArea(vector<int>& heights) {
+        // Create a stack to store pairs of (index, height).
+        stack<pair<int, int>> stk;
+        int result = 0; // Initialize the result for the largest rectangle area.
+
+        for (int i = 0; i < heights.size(); i++) {
+            int start = i; // Initialize the start position of the current rectangle.
+
+            // Check if the stack is not empty and if the height of the current bar is less than the height
+            // of the bar at the top of the stack (indicated by stk.top().second).
+            while (!stk.empty() && stk.top().second > heights[i]) {
+                int index = stk.top().first; // Get the index of the bar at the top of the stack.
+                int width = i - index; // Calculate the width of the rectangle.
+                int height = stk.top().second; // Get the height of the bar at the top of the stack.
+                stk.pop(); // Pop the bar from the stack.
+
+                // Calculate the area of the rectangle formed by the popped bar and update the result.
+                result = max(result, height * width);
+
+                start = index; // Update the start position for the next rectangle.
+            }
+
+            // Push the start position and height of the current bar onto the stack.
+            stk.push({start, heights[i]});
+        }
+
+        // Process any remaining bars left in the stack.
+        while (!stk.empty()) {
+            int width = heights.size() - stk.top().first; // Calculate the width of the remaining rectangle.
+            int height = stk.top().second; // Get the height of the bar at the top of the stack.
+            stk.pop(); // Pop the bar from the stack.
+
+            // Calculate the area of the remaining rectangle and update the result.
+            result = max(result, height * width);
+        }
+
+        return result; // Return the maximum rectangle area.
+    }
+};
