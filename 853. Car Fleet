@@ -1,0 +1,34 @@
+class Solution {
+public:
+    int carFleet(int target, vector<int>& position, vector<int>& speed) {
+        int n = position.size(); // Get the number of cars.
+
+        // Create a vector of pairs to store car positions and the time it takes to reach the target.
+        vector<pair<int, double>> cars;
+
+        // Calculate the time it takes for each car to reach the target and store it in the 'cars' vector.
+        for (int i = 0; i < n; i++) {
+            double time = (double) (target - position[i]) / speed[i];
+            cars.push_back({position[i], time});
+        }
+
+        // Sort the 'cars' vector based on car positions in ascending order.
+        sort(cars.begin(), cars.end());
+
+        double maxTime = 0.0; // Initialize the maximum time as 0.
+        int result = 0; // Initialize the result count of car fleets as 0.
+
+        // Iterate through the 'cars' vector in reverse order (from right to left).
+        for (int i = n - 1; i >= 0; i--) {
+            double time = cars[i].second; // Get the time to reach the target for the current car.
+
+            // Check if the current car's time is greater than the maximum time.
+            if (time > maxTime) {
+                maxTime = time; // Update the maximum time with the current car's time.
+                result++; // Increment the count of car fleets.
+            }
+        }
+
+        return result; // Return the total number of car fleets.
+    }
+};
