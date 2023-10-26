@@ -24,42 +24,50 @@ Code:-->
 class Solution {
 public:
     bool exist(vector<vector<char>>& board, string word) {
-        int m = board.size();
-        int n = board[0].size();
-        
+        int m = board.size(); // Get the number of rows in the board
+        int n = board[0].size(); // Get the number of columns in the board
+
+        // Iterate through the entire board
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
+                // If the current cell matches the first character of the word
                 if (board[i][j] == word[0]) {
+                    // Start a depth-first search (DFS) from this cell
                     if (dfs(board, word, 0, i, j, m, n)) {
-                        return true;
+                        return true; // If DFS returns true, the word is found
                     }
                 }
             }
         }
-        
-        return false;
+
+        return false; // If the word is not found on the board
     }
 private:
-    bool dfs(vector<vector<char>>& board, string word,
-        int index, int i, int j, int m, int n) {
-        
+    bool dfs(vector<vector<char>>& board, string word, int index, int i, int j, int m, int n) {
+        // Base case 1: If the current cell is out of bounds or doesn't match the current character in the word
         if (i < 0 || i >= m || j < 0 || j >= n || board[i][j] != word[index]) {
             return false;
         }
+        
+        // Base case 2: If the entire word has been matched
         if (index == word.size() - 1) {
             return true;
         }
         
+        // Mark the current cell as visited (using a temporary marker, '#')
         board[i][j] = '#';
         
+        // Recursively explore neighboring cells in all four directions
         if (dfs(board, word, index + 1, i - 1, j, m, n)
             || dfs(board, word, index + 1, i + 1, j, m, n)
             || dfs(board, word, index + 1, i, j - 1, m, n)
             || dfs(board, word, index + 1, i, j + 1, m, n)) {
-            return true;
+            return true; // If any of the recursive calls return true, the word is found
         }
         
+        // Unmark the cell, restoring it to its original character
         board[i][j] = word[index];
-        return false;
+        
+        return false; // If the word is not found starting from this cell
     }
 };
