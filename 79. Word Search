@@ -1,0 +1,65 @@
+Intuition
+The problem requires checking whether a given word can be formed by following a path in a 2D board of characters. To solve this problem, we can perform a depth-first search (DFS) starting from each cell in the board to explore all possible paths that match the word.
+
+Approach
+Initialize two variables, 'm' and 'n', to store the dimensions of the board (m rows and n columns).
+Iterate through each cell in the board:
+a. If the current cell matches the first character of the word, start a DFS from that cell.
+b. In the DFS, perform the following steps:
+i. Check if the current position is out of bounds (i < 0 or i >= m or j < 0 or j >= n) or if the current cell does not match the character at 'index' in the word. If any of these conditions are met, return false, indicating that the current path cannot lead to the word.
+ii. Check if 'index' is equal to the length of the word minus 1. If it is, we have successfully found the word, so return true.
+iii. Mark the current cell as visited (e.g., by changing its value to a special character like '#') to avoid revisiting it in the same path.
+iv. Recursively call the DFS for the four neighboring cells (up, down, left, right) with 'index + 1' and check if any of them return true.
+v. If any of the neighboring DFS calls return true, return true as well, indicating that the word can be found along this path.
+vi. After completing the DFS for the current cell and its neighbors, restore the original value of the current cell (undoing the marking).
+If no path from any cell in the board matches the word, return false.
+Complexity
+Time complexity: O(m * n * 4^k), where 'm' and 'n' are the dimensions of the board, and 'k' is the length of the word. The worst-case time complexity occurs when we explore all possible paths in the DFS.
+Space complexity: O(k), where 'k' is the length of the word. This space is used for the recursive call stack during DFS.
+
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
+Code:-->
+class Solution {
+public:
+    bool exist(vector<vector<char>>& board, string word) {
+        int m = board.size();
+        int n = board[0].size();
+        
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (board[i][j] == word[0]) {
+                    if (dfs(board, word, 0, i, j, m, n)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        
+        return false;
+    }
+private:
+    bool dfs(vector<vector<char>>& board, string word,
+        int index, int i, int j, int m, int n) {
+        
+        if (i < 0 || i >= m || j < 0 || j >= n || board[i][j] != word[index]) {
+            return false;
+        }
+        if (index == word.size() - 1) {
+            return true;
+        }
+        
+        board[i][j] = '#';
+        
+        if (dfs(board, word, index + 1, i - 1, j, m, n)
+            || dfs(board, word, index + 1, i + 1, j, m, n)
+            || dfs(board, word, index + 1, i, j - 1, m, n)
+            || dfs(board, word, index + 1, i, j + 1, m, n)) {
+            return true;
+        }
+        
+        board[i][j] = word[index];
+        return false;
+    }
+};
